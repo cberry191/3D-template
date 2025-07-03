@@ -25,10 +25,10 @@ add_executable(SteppeLord
     src/main.cpp
     src/core/Window.cpp
     src/graphics/Shader.cpp
-    src/input/CameraController.cpp
+    src/graphics/RenderableComponent.cpp
+    src/graphics/Mesh.cpp
     src/camera/StrategyCamera.cpp
-    src/renderables/GroundRenderer.cpp
-    src/renderables/PlayerRenderer.cpp
+    src/game/Game.cpp
 )
 
 target_link_libraries(SteppeLord

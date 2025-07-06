@@ -18,10 +18,14 @@ void RenderableComponent::draw(glm::mat4 model, glm::mat4 view, glm::mat4 projec
 {
     shader->use();
 
-    glUniform3f(colorLoc, color.x, color.y, color.z);
-    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-    glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+    // glUniform3f(colorLoc, color.x, color.y, color.z);
+    shader->setVec3("color", color);
+    // glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+    shader->setMat4("model", model);
+    // glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+    shader->setMat4("view", view);
+    // glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+    shader->setMat4("projection", projection);
 
     mesh->bind();
     mesh->draw();

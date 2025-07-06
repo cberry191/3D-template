@@ -1,59 +1,50 @@
 #include <iostream>
 #include "Game.h"
 
-float groundVertices[] = {
-    // Ground rectangle (two triangles forming a rectangle)
-    -0.5f, -0.5f, 0.0f,
-    0.5f, -0.5f, 0.0f,
-    0.5f, 0.5f, 0.0f,
+std::vector<Vertex> cubeVertices = {
+    // Position               Normal              UV
+    {{-0.5f, -0.5f, -0.5f}, {}, {}}, // 0
+    {{0.5f, -0.5f, -0.5f}, {}, {}},  // 1
+    {{0.5f, 0.5f, -0.5f}, {}, {}},   // 2
+    {{-0.5f, 0.5f, -0.5f}, {}, {}},  // 3
+    {{-0.5f, -0.5f, 0.5f}, {}, {}},  // 4
+    {{0.5f, -0.5f, 0.5f}, {}, {}},   // 5
+    {{0.5f, 0.5f, 0.5f}, {}, {}},    // 6
+    {{-0.5f, 0.5f, 0.5f}, {}, {}},   // 7
+};
 
-    -0.5f, -0.5f, 0.0f,
-    0.5f, 0.5f, 0.0f,
-    -0.5f, 0.5f, 0.0f};
+std::vector<unsigned int> cubeIndices = {
+    // Front face
+    4, 5, 6,
+    6, 7, 4,
+    // Back face
+    1, 0, 3,
+    3, 2, 1,
+    // Left face
+    0, 4, 7,
+    7, 3, 0,
+    // Right face
+    5, 1, 2,
+    2, 6, 5,
+    // Top face
+    3, 7, 6,
+    6, 2, 3,
+    // Bottom face
+    0, 1, 5,
+    5, 4, 0};
 
-float cubeVertices[] = {
-    // Cube vertices (36 total, 12 triangles)
-    -0.5f, -0.5f, 0.5f, // front face
-    0.5f, -0.5f, 0.5f,
-    0.5f, 0.5f, 0.5f,
-    0.5f, 0.5f, 0.5f,
-    -0.5f, 0.5f, 0.5f,
-    -0.5f, -0.5f, 0.5f,
+std::vector<Vertex> groundVertices = {
+    // Triangle 1
+    {{-0.5f, 0.0f, -0.5f}, {0, 1, 0}, {0.0f, 0.0f}},
+    {{0.5f, 0.0f, -0.5f}, {0, 1, 0}, {1.0f, 0.0f}},
+    {{0.5f, 0.0f, 0.5f}, {0, 1, 0}, {1.0f, 1.0f}},
 
-    -0.5f, -0.5f, -0.5f, // back face
-    -0.5f, 0.5f, -0.5f,
-    0.5f, 0.5f, -0.5f,
-    0.5f, 0.5f, -0.5f,
-    0.5f, -0.5f, -0.5f,
-    -0.5f, -0.5f, -0.5f,
+    // Triangle 2
+    {{-0.5f, 0.0f, -0.5f}, {0, 1, 0}, {0.0f, 0.0f}},
+    {{0.5f, 0.0f, 0.5f}, {0, 1, 0}, {1.0f, 1.0f}},
+    {{-0.5f, 0.0f, 0.5f}, {0, 1, 0}, {0.0f, 1.0f}}};
 
-    -0.5f, 0.5f, 0.5f, // left face
-    -0.5f, 0.5f, -0.5f,
-    -0.5f, -0.5f, -0.5f,
-    -0.5f, -0.5f, -0.5f,
-    -0.5f, -0.5f, 0.5f,
-    -0.5f, 0.5f, 0.5f,
-
-    0.5f, 0.5f, 0.5f, // right face
-    0.5f, -0.5f, 0.5f,
-    0.5f, -0.5f, -0.5f,
-    0.5f, -0.5f, -0.5f,
-    0.5f, 0.5f, -0.5f,
-    0.5f, 0.5f, 0.5f,
-
-    -0.5f, 0.5f, -0.5f, // top face
-    -0.5f, 0.5f, 0.5f,
-    0.5f, 0.5f, 0.5f,
-    0.5f, 0.5f, 0.5f,
-    0.5f, 0.5f, -0.5f,
-    -0.5f, 0.5f, -0.5f,
-
-    -0.5f, -0.5f, -0.5f, // bottom face
-    0.5f, -0.5f, -0.5f,
-    0.5f, -0.5f, 0.5f,
-    0.5f, -0.5f, 0.5f,
-    -0.5f, -0.5f, 0.5f,
-    -0.5f, -0.5f, -0.5f};
+std::vector<unsigned int> groundIndices = {0, 1, 2, 2, 3, 0};
 
 Game::Game(Window &window) : window(window) {}
 
@@ -69,26 +60,33 @@ void Game::setup()
 
     shader = new Shader("assets/shaders/basic.vert", "assets/shaders/basic.frag");
 
-    Mesh *groundMesh = new Mesh(groundVertices, sizeof(groundVertices));
-    Mesh *cubeMesh = new Mesh(cubeVertices, sizeof(cubeVertices));
+    Mesh *groundMesh = new Mesh(groundVertices, groundIndices);
+    Mesh *cubeMesh = new Mesh(cubeVertices, cubeIndices);
 
     Entity ground;
     ground.setPosition({0, 0, 0});
     ground.renderable = new RenderableComponent(groundMesh, shader);
     ground.colour = glm::vec3(0.0f, 1.0f, 0.0f);
-    ground.scale = glm::vec3(20.0f, 1.0f, 20.0f);
+    ground.scale = glm::vec3(100.0f, 1.0f, 100.0f);
     entities.push_back(ground);
 
     Entity player;
-    player.setPosition({0, 0, 0});
+    player.setPosition({0, 5.0f, 0});
     player.renderable = new RenderableComponent(cubeMesh, shader);
     player.colour = glm::vec3(1.0f, 0.0f, 0.0f);
     entities.push_back(player);
 
-    camera.setTarget(glm::vec3(0.0f, .0f, 3.0f)); // Set the camera target to the player's position
-    camera.zoom(5.0f);                            // pull back
-    camera.setPitch(glm::radians(0.0f));          // tilt downward
-    camera.rotate(glm::radians(0.0f));
+    Entity e;
+    e.setPosition({-5.0f, 5.0f, -5.0f});
+    e.model = new Model(shader);
+    e.model->loadFromFile("assets/models/CharacterBase.glb");
+    entities.push_back(e);
+    std::cout << "Model mesh count: " << e.model->getMeshCount() << std::endl;
+
+    camera.setTarget(glm::vec3(0.0f, 0.0f, 0.0f)); // Set the camera target to the player's position
+    camera.zoom(5.0f);                             // pull back
+    camera.setPitch(glm::radians(10.0f));          // tilt downward
+    camera.rotate(glm::radians(180.0f));
 
     Uint32 previousTime = SDL_GetTicks();
 }
@@ -101,26 +99,21 @@ void Game::run()
         float deltaTime = glm::clamp((currentTime - previousTime) / 1000.0f, 1.0f / 240.0f, 1.0f / 15.0f);
         previousTime = currentTime;
 
-        cameraSpeed = 250.0f * deltaTime;
-        rotationSpeed = 250.0f * deltaTime;
+        cameraSpeed = 200.0f * deltaTime;
+        rotationSpeed = 200.0f * deltaTime;
 
         view = camera.getViewMatrix();
-        // view = glm::lookAt(
-        //     glm::vec3(0, 0, 3), // eye
-        //     glm::vec3(0, 0, 0), // target
-        //     glm::vec3(0, 1, 0)  // up
-        // );
 
         int winW = window.getWidth();
         int winH = window.getHeight();
         float aspect = (float)winW / (float)winH;
-        glViewport(0, 0, winW, winH); // keeps GL happy if using immediate rendering
+        glViewport(0, 0, winW, winH);
 
         projection = glm::perspective(
             glm::radians(45.0f),
             aspect,
             0.1f,
-            100.0f);
+            500.0f);
 
         handleEvents();
         // update(deltaTime);
@@ -159,6 +152,7 @@ void Game::handleEvents()
 
             switch (event.key.keysym.sym)
             {
+                // flag max camera distance from origin
             case SDLK_w:
                 camera.pan(0.0f, cameraSpeed); // Move forward
                 break;

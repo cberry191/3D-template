@@ -2,6 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <glm/gtc/type_ptr.hpp>
 
 Shader::Shader(const char *vertexPath, const char *fragmentPath)
 {
@@ -77,4 +78,24 @@ void Shader::use()
 GLuint Shader::getProgram()
 {
     return programID;
+}
+
+void Shader::setMat4(const std::string &name, const glm::mat4 &mat) const
+{
+    glUniformMatrix4fv(glGetUniformLocation(programID, name.c_str()), 1, GL_FALSE, glm::value_ptr(mat));
+}
+
+void Shader::setVec3(const std::string &name, const glm::vec3 &vec) const
+{
+    glUniform3f(glGetUniformLocation(programID, name.c_str()), vec.x, vec.y, vec.z);
+}
+
+void Shader::setFloat(const std::string &name, float value) const
+{
+    glUniform1f(glGetUniformLocation(programID, name.c_str()), value);
+}
+
+void Shader::setInt(const std::string &name, int value) const
+{
+    glUniform1i(glGetUniformLocation(programID, name.c_str()), value);
 }

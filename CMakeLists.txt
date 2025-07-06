@@ -17,6 +17,7 @@ include_directories(
     /opt/homebrew/include/SDL2
     /opt/homebrew/include
     ${GLM_INCLUDE_DIRS}
+    ${CMAKE_SOURCE_DIR}/external
 )
 
 link_directories(/opt/homebrew/lib)
@@ -27,6 +28,7 @@ add_executable(SteppeLord
     src/graphics/Shader.cpp
     src/graphics/RenderableComponent.cpp
     src/graphics/Mesh.cpp
+    src/graphics/Model.cpp
     src/camera/StrategyCamera.cpp
     src/game/Game.cpp
 )

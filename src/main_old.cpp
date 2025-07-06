@@ -3,7 +3,6 @@
 #include <OpenGL/gl3.h>
 #include <iostream>
 
-// Window dimensions
 const int WIDTH = 800;
 const int HEIGHT = 600;
 
@@ -38,14 +37,11 @@ int main(int argc, char *argv[])
 
     SDL_GLContext context = SDL_GL_CreateContext(window);
 
-    // Vertex data
     GLfloat vertices[] = {
-        // positions
         -0.5f, -0.5f, 0.0f,
         0.5f, -0.5f, 0.0f,
         0.0f, 0.5f, 0.0f};
 
-    // Vertex buffer and array setup
     GLuint VBO, VAO;
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
@@ -57,7 +53,6 @@ int main(int argc, char *argv[])
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
     glEnableVertexAttribArray(0);
 
-    // Shaders (simple hardcoded shaders for quick demo)
     const char *vertexShaderSource = "#version 410 core\n"
                                      "layout (location = 0) in vec3 position;\n"
                                      "void main() {\n"
@@ -93,7 +88,6 @@ int main(int argc, char *argv[])
         glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        // Draw the triangle
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 3);
 

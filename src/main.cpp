@@ -10,6 +10,14 @@
 #include <SDL2/SDL.h>
 #include <iostream>
 
+#define TINYGLTF_IMPLEMENTATION
+#define STB_IMAGE_IMPLEMENTATION
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#define TINYGLTF_NO_INCLUDE_JSON
+
+#include "json.hpp"
+#include "tiny_gltf.h"
+
 int main()
 {
     if (SDL_Init(SDL_INIT_VIDEO) < 0)

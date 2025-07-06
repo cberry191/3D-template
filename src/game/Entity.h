@@ -1,7 +1,10 @@
 #include "../graphics/RenderableComponent.h"
+#include "../graphics/Model.h"
 #include <iostream>
 #include <glm/glm.hpp>
 #include <glm/ext/matrix_transform.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <functional>
 
 class Entity
@@ -21,22 +24,33 @@ public:
     virtual std::string getType() const { return "Generic"; }
 
     RenderableComponent *renderable = nullptr;
+    Model *model = nullptr;
 
     glm::vec3 colour = glm::vec3(1.0f);
     glm::vec3 scale = glm::vec3(1.0f);
 
     void draw(glm::mat4 projection, glm::mat4 view)
     {
+        glm::mat4 baseModel = glm::translate(glm::mat4(1.0f), position);
+        baseModel = glm::scale(baseModel, scale);
+
         // if (!isVisible(view, projection))
         //     return;
 
         if (renderable)
         {
-            glm::mat4 model = glm::translate(glm::mat4(1.0f), position);
-            model = glm::scale(model, scale);
-            renderable->draw(model, view, projection, colour);
+            renderable->draw(baseModel, view, projection, colour);
+        }
+        else if (model)
+        {
+            model->draw(baseModel, view, projection, colour);
         }
     }
+
+    // void rotate(float angle, glm::vec3 axis)
+    // {
+    //     model = glm::rotate(model, angle, axis);
+    // }
 
     std::function<void(Entity &)> updateFn;
 

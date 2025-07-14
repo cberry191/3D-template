@@ -10,7 +10,12 @@
 class Entity
 {
 public:
-    // virtual ~Entity() = default;
+    Entity() = default;
+    Entity(std::string name)
+    {
+        this->name = name;
+    };
+    std::string name = "Entity";
     glm::vec3 position = glm::vec3(0.0f, .0f, 0.0f);
     bool selected = false;
 
@@ -20,7 +25,7 @@ public:
     bool isSelected() const { return selected; }
 
     virtual int getId() const { return 0; }
-    virtual std::string getName() const { return "Entity"; }
+    virtual std::string getName() const { return name; }
     virtual std::string getType() const { return "Generic"; }
 
     RenderableComponent *renderable = nullptr;
@@ -39,11 +44,11 @@ public:
 
         if (renderable)
         {
-            renderable->draw(baseModel, view, projection, colour);
+            renderable->draw(baseModel, view, projection, colour, selected);
         }
         else if (model)
         {
-            model->draw(baseModel, view, projection, colour);
+            model->draw(baseModel, view, projection, colour, selected);
         }
     }
 

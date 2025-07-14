@@ -14,7 +14,7 @@ RenderableComponent::RenderableComponent(Mesh *mesh, Shader *shader) : shader(sh
     projLoc = glGetUniformLocation(shader->getProgram(), "projection");
 }
 
-void RenderableComponent::draw(glm::mat4 model, glm::mat4 view, glm::mat4 projection, glm::vec3 color)
+void RenderableComponent::draw(glm::mat4 model, glm::mat4 view, glm::mat4 projection, glm::vec3 color, bool isSelected)
 {
     shader->use();
 
@@ -26,6 +26,7 @@ void RenderableComponent::draw(glm::mat4 model, glm::mat4 view, glm::mat4 projec
     shader->setMat4("view", view);
     // glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
     shader->setMat4("projection", projection);
+    shader->setBool("isSelected", isSelected);
 
     mesh->bind();
     mesh->draw();

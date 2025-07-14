@@ -2,7 +2,7 @@
 #pragma once
 #include <vector>
 #include <glm/glm.hpp>
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include "./Vertex.h"
 
 class Mesh

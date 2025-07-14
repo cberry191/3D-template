@@ -7,7 +7,7 @@ class RenderableComponent
 {
 public:
     RenderableComponent(Mesh *mesh, Shader *shader);
-    void draw(glm::mat4 model, glm::mat4 view, glm::mat4 projection, glm::vec3 color);
+    void draw(glm::mat4 model, glm::mat4 view, glm::mat4 projection, glm::vec3 color, bool isSelected = false);
     std::vector<float> vertices;
     Mesh *mesh;
     Shader *shader;

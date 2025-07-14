@@ -10,16 +10,17 @@ Model::Model(Shader *shader) : shader(shader)
     }
 }
 
-void Model::draw(glm::mat4 modelMatrix, glm::mat4 view, glm::mat4 projection, glm::vec3 color)
+void Model::draw(glm::mat4 modelMatrix, glm::mat4 view, glm::mat4 projection, glm::vec3 color, bool isSelected)
 {
     if (!shader)
         return;
 
     shader->use();
-    shader->setVec3("color", color); // you may have this method or set manually
+    shader->setVec3("color", color);
     shader->setMat4("model", modelMatrix);
     shader->setMat4("view", view);
     shader->setMat4("projection", projection);
+    shader->setBool("isSelected", isSelected);
 
     for (auto &mesh : meshes)
     {

@@ -2,8 +2,13 @@
 out vec4 FragColor;
 
 uniform vec3 color;
+uniform bool isSelected;
 
 void main()
 {
-    FragColor = vec4(color, 1.0);
+    vec3 baseColour = color;
+    if (isSelected) {
+        baseColour = mix(color, vec3(1.0, 1.0, 0.0), 0.5);
+    }
+    FragColor = vec4(baseColour, 1.0);
 }

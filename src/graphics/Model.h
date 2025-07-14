@@ -11,7 +11,7 @@ public:
 
     bool loadFromFile(const std::string &filename);
 
-    void draw(glm::mat4 modelMatrix, glm::mat4 view, glm::mat4 projection, glm::vec3 color);
+    void draw(glm::mat4 modelMatrix, glm::mat4 view, glm::mat4 projection, glm::vec3 color, bool isSelected = false);
 
     void setShader(Shader *s) { shader = s; }
 

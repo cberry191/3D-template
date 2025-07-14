@@ -9,33 +9,34 @@ file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR})
 
 find_package(SDL2 REQUIRED)
 find_package(OpenGL REQUIRED)
-find_package(GLEW REQUIRED)
 find_package(glm REQUIRED)
 
-include_directories(
+link_directories(/opt/homebrew/lib)
+
+add_executable(SteppeLord
+src/main.cpp
+src/core/Window.cpp
+src/graphics/Shader.cpp
+src/graphics/RenderableComponent.cpp
+src/graphics/Mesh.cpp
+src/graphics/Model.cpp
+src/graphics/Framebuffer.cpp
+src/camera/StrategyCamera.cpp
+src/game/Game.cpp
+external/glad/src/glad.c
+)
+
+target_include_directories(SteppeLord PRIVATE
     ${CMAKE_SOURCE_DIR}/include    
     /opt/homebrew/include/SDL2
     /opt/homebrew/include
     ${GLM_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/external
-)
-
-link_directories(/opt/homebrew/lib)
-
-add_executable(SteppeLord
-    src/main.cpp
-    src/core/Window.cpp
-    src/graphics/Shader.cpp
-    src/graphics/RenderableComponent.cpp
-    src/graphics/Mesh.cpp
-    src/graphics/Model.cpp
-    src/camera/StrategyCamera.cpp
-    src/game/Game.cpp
+    ${CMAKE_SOURCE_DIR}/external/glad/include
 )
 
 target_link_libraries(SteppeLord
     SDL2
-    GLEW::GLEW
     OpenGL::GL
 )
 

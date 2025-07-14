@@ -2,7 +2,7 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include "./core/Window.h"
 #include "./game/Game.h"
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
